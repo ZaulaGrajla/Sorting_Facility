@@ -1,7 +1,7 @@
+import datetime
 import random
 from pprint import pprint
 import time
-
 import sorting_facility
 from collections import namedtuple
 from sender import Sender
@@ -22,27 +22,36 @@ class SortingFacilitySenders():
         return new_sender
 
     def get_senders_info(self):
-        SendersData=namedtuple("Senders_Data","Name Origin")
+        SendersData = namedtuple("Senders_Data", "Name Origin")
         return [SendersData(sender.name, sender.origin) for sender in self.my_senders]
 
+
 def line():
-    print(70*'_',end='\n')
+    print(70 * '_', end='\n')
+
 
 def day_simulation():
+    start = datetime.datetime.now()
     my_senders = SortingFacilitySenders()
 
-    wiesiek = my_senders.add_new_sender("Wiesiek", "Daszyna")
-    mariola = my_senders.add_new_sender("Mariola", "Pcim")
-    zenek = my_senders.add_new_sender("Zenek", "Grażynowo")
-    janusz = my_senders.add_new_sender("Janusz", "Cebulandia-Zdrój")
+    random_names = ["Zenon", "Grazyna", "Pacek", "Lacek", "Janusz", "Mariola"]
+    random_places = ["Daszyna", "Pcim", "Bystra", "Ciechocinek", "Pruszcz", "Cebulowo"]
 
-    my_sorting_facility=sorting_facility.SortingFacility()
+    for _ in range(5):
+        my_senders.add_new_sender(random.choice(random_names), random.choice(random_places))
 
-    week=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-    day=random.choice(week)
+    my_sorting_facility = sorting_facility.SortingFacility()
+
+    week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    day = random.choice(week)
 
     my_sorting_facility.start_day()
     print(f"Today is {day}.")
+    if day == "Sunday":
+        line()
+        print("We don't work on Sundays...")
+        line()
+        once_again()
     line()
     time.sleep(1)
 
@@ -53,33 +62,39 @@ def day_simulation():
     time.sleep(1)
 
     for sender in my_senders.senders:
-
-        amount_of_parcels=random.randint(1,5)
-        new_parcels=sender.prepare_parcels(amount_of_parcels)
+        amount_of_parcels = random.randint(1, 10)
+        new_parcels = sender.prepare_parcels(amount_of_parcels)
         print(f"\n{sender.name} sends on {day} {amount_of_parcels} parcel(s).")
 
         my_sorting_facility.take_parcels_from_sender(new_parcels)
     line()
     print(f"Here is total amount of parcels from {day}:\n")
-    counter=0
+    counter = 0
     for destination, parcels in my_sorting_facility.parcels_sorted_by_destination.items():
-        print("Destination:",destination)
-        print("Total number of parcels:",len(parcels))
+        time.sleep(1)
+        print("Destination:", destination)
+        print("Total number of parcels:", len(parcels))
         print('\n')
-        counter+=len(parcels)
+        counter += len(parcels)
 
     line()
 
+    time.sleep(1)
+    stop = datetime.datetime.now()
+    time_wasted = stop - start
+    print(f"Day simulation on {day} took only {time_wasted}. That wasn't so bad, ay?")
     print(f'On {day} there were {counter} parcels sent.')
 
     line()
+    once_again()
 
-    start_again=input("Do you want to start another random day simulation?\nPress y for Yes.\n")
-    if start_again=='y':
+
+def once_again():
+    start_again = input("Do you want to start another random day simulation?\nPress y for Yes.\n")
+    if start_again == 'y':
         print('\n')
         day_simulation()
 
 
 if __name__ == '__main__':
     day_simulation()
-

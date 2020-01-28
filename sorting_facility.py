@@ -7,7 +7,6 @@ from functools import wraps
 from pprint import pprint
 import datetime
 
-import parcels
 
 class SortingFacility:
 
@@ -34,7 +33,7 @@ class SortingFacility:
 
     def log_parcels(self):
         print(f'Data of all parcels in sorting facility at {datetime.datetime.now().strftime("%H:%M:%S")}:\n')
-        time.sleep(1)
+        time.sleep(2)
         pprint(self.parcels_sorted_by_destination)
         time.sleep(2)
 
@@ -44,11 +43,7 @@ class SortingFacility:
             parcel_counter = Counter()
 
             for one_parcel in parcels:
-                parcel_counter[one_parcel.size]+=1
-            time.sleep(0.5)
-            print("Destination",destination,":\n",[{"Size":size, "Amount":amount} for size,amount in parcel_counter.items()])
-
-
-
-
-
+                parcel_counter[one_parcel.size] += 1
+            time.sleep(1)
+            print("Destination", destination, ":\n",
+                  [{"Size": size, "Amount": amount} for size, amount in parcel_counter.items()])

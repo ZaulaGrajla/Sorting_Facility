@@ -3,7 +3,7 @@ from datetime import datetime
 
 from dataclasses import dataclass
 
-destinations = ("Gdansk", "Gdynia", "Sopot", "Rumia","Reda","Wejherowo","Warszawa")
+destinations = ("Gdansk", "Gdynia", "Sopot", "Rumia", "Reda", "Wejherowo", "Warszawa", "Krakow", "Wroclaw")
 sizes = ("Small", "Medium", "Large")
 
 
@@ -25,4 +25,3 @@ def __parcel_generator():
 
 
 parcel_generator = __parcel_generator()
-
